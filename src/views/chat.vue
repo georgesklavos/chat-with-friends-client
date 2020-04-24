@@ -13,6 +13,14 @@
         </v-col>
         <v-col cols="12" sm="4" md="7">
           <v-card class="pa-2" outlined tile style="height: 100vh;">
+            <v-row v-if="loading">
+              <v-col cols="12">
+                <v-row justify="center" align="center" style="height:600px">
+                  <v-progress-circular color="primary" size="100" indeterminate></v-progress-circular>
+                </v-row>
+              </v-col>
+            </v-row>
+
             <chat v-if="chat"></chat>
           </v-card>
         </v-col>
@@ -37,7 +45,8 @@ export default {
   data() {
     return {
       load: true,
-      chat: false
+      chat: false,
+      loading: true
     };
   },
   methods: {
@@ -47,9 +56,8 @@ export default {
       }
     },
     loadChat: function(value) {
-      if (value) {
-        this.chat = value;
-      }
+      this.chat = value;
+      this.loading = !value;
     }
   },
   async created() {

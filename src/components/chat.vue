@@ -67,7 +67,7 @@ export default {
   },
   async created() {
     // await this.$store.dispatch("profile");
-    console.log(`messageSend-${this.user._id}-${this.getActiveChat.chat}`);
+    // console.log(`messageSend-${this.user._id}-${this.getActiveChat.chat}`);
     this.socket.on(
       `messageSend-${this.user._id}-${this.getActiveChat.chat}`,
       async value => {

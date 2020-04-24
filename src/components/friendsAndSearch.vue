@@ -206,6 +206,11 @@ export default {
       await this.$store.dispatch("getFriends");
     });
 
+    this.socket.on(`deleteFriend-${this.user._id}`, async () => {
+      await this.$store.dispatch("chats");
+      await this.$store.dispatch("getFriends");
+    });
+
     if (this.chats.length > 0) {
       this.$store.commit("setActivateChat", {
         user: this.chats[0]._id,
@@ -216,12 +221,7 @@ export default {
       });
       await this.$store.dispatch("getMessages", this.getActiveChat.chat);
 
-      this.$emit("messages", "true");
-
-      this.socket.on(`deleteFriend-${this.user._id}`, async () => {
-        await this.$store.dispatch("chats");
-        await this.$store.dispatch("getFriends");
-      });
+      this.$emit("messages", true);
     }
   },
   methods: {
@@ -276,7 +276,10 @@ export default {
         lastname: value.lastname,
         avatar: value.avatar
       });
+      console.log(this.getActiveChat.chat);
+      this.$emit("messages", false);
       await this.$store.dispatch("getMessages", this.getActiveChat.chat);
+      this.$emit("messages", true);
     },
     loadData: async function() {
       await this.$store.dispatch("profile");

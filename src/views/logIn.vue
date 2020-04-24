@@ -13,6 +13,7 @@
           >
             <v-text-field
               :rules="[rules.required, rules.email]"
+              :error-messages="loginWrong"
               v-model="login.email"
               label="Email"
             ></v-text-field>
@@ -38,6 +39,7 @@
 
 <script>
 import appBar from "../components/appBar.vue";
+import { mapGetters } from "vuex";
 export default {
   components: {
     appBar
@@ -57,6 +59,21 @@ export default {
         email: v => /.+@.+\..+/.test(v) || "E-mail must be valid"
       }
     };
+  },
+  computed: {
+    ...mapGetters(["wrongLogin"]),
+    loginWrong() {
+      const errors = [];
+      if (this.wrongLogin) {
+        errors.push("This email or password is wrong");
+        return errors;
+      } else {
+        return [];
+      }
+    }
+  },
+  created() {
+    this.$store.commit("wrongLogin", false);
   },
   methods: {
     sendLogin: function() {

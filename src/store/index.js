@@ -18,6 +18,7 @@ export default new Vuex.Store({
     activeChat: {},
     firstMessages: [],
     usedEmail: false,
+    wrongLogin: false,
   },
   getters: {
     getTheToken: (state) => {
@@ -46,6 +47,9 @@ export default new Vuex.Store({
     },
     usedEmail: (state) => {
       return state.usedEmail;
+    },
+    wrongLogin: (state) => {
+      return state.wrongLogin;
     },
   },
   mutations: {
@@ -97,6 +101,7 @@ export default new Vuex.Store({
         activeChat: {},
         firstMessages: [],
         usedEmail: false,
+        wrongLogin: false,
       });
       router.push({ name: "Log in" });
     },
@@ -130,6 +135,9 @@ export default new Vuex.Store({
     },
     usedEmail(state, payload) {
       state.usedEmail = payload;
+    },
+    wrongLogin(state, payload) {
+      state.wrongLogin = payload;
     },
   },
   actions: {
@@ -176,7 +184,12 @@ export default new Vuex.Store({
             }
             resolve();
           })
-          .catch((err) => {
+          .catch(async (err) => {
+            if (
+              err.response.data.error.includes("The email or password is wrong")
+            ) {
+              await context.commit("wrongLogin", true);
+            }
             console.log(err);
           });
       });

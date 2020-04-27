@@ -3,6 +3,7 @@
     <div class="chatMessages" ref="chatMessages">
       <div v-for="(item,index) in messages" :key="index">
         <div v-if="item.sender !== user._id" style="direction: ltr">
+          <p style="margin-left: 10px;" class="date">{{item.createdAt}}</p>
           <v-avatar style="margin-right:10px">
             <img :src="getActiveChat.avatar" />
           </v-avatar>
@@ -11,6 +12,7 @@
           </div>
         </div>
         <div v-if="item.sender === user._id" style="  direction: rtl;">
+          <p style="margin-right: 10px;" class="date">{{item.createdAt}}</p>
           <v-avatar style="margin-left:10px">
             <img :src="user.avatar" />
           </v-avatar>
@@ -47,6 +49,7 @@
 import io from "socket.io-client";
 import Cookies from "js-cookie";
 import { mapGetters } from "vuex";
+import moment from "moment";
 
 export default {
   name: "chat",
@@ -71,6 +74,7 @@ export default {
     this.socket.on(
       `messageSend-${this.user._id}-${this.getActiveChat.chat}`,
       async value => {
+        value.createdAt = this.parseDate(value.createdAt);
         this.messages.push(value);
         this.$nextTick(() => {
           this.autoScroll();
@@ -99,6 +103,9 @@ export default {
   },
 
   methods: {
+    parseDate: function(date) {
+      return moment(date).format("ddd hh:mm DD/YYYY");
+    },
     timeoutFunction: function() {
       this.typing = false;
       this.socket.emit(`type-${this.user._id}`, {
@@ -132,7 +139,8 @@ export default {
 
         this.messages.push({
           sender: this.user._id,
-          message: this.message
+          message: this.message,
+          createdAt: moment().format("ddd hh:mm DD/YYYY")
         });
         this.message = "";
       }
@@ -216,11 +224,12 @@ export default {
 }
 .textDiv {
   box-sizing: border-box;
-  border-radius: 20px 0 20px 20px;
+  border-radius: 20px 20px 20px 20px;
   display: inline-block;
   max-width: 40%;
   width: auto;
-  margin-top: 20px;
+  margin-top: 10px;
+  margin-bottom: 10px;
 }
 
 .user {
@@ -229,9 +238,13 @@ export default {
 }
 .other {
   background: #d7e5f7;
-  border-radius: 0 25px 25px 25px;
+  border-radius: 20px 20px 20px 20px;
 }
 .messageForm {
   display: flex;
+}
+
+.date {
+  margin-bottom: 0px;
 }
 </style>

@@ -131,6 +131,9 @@ export default new Vuex.Store({
       state.activeChat = payload;
     },
     setMessages(state, payload) {
+      payload.forEach((el) => {
+        el.createdAt = moment(el.createdAt).format("ddd hh:mm DD/YYYY");
+      });
       state.firstMessages = payload;
     },
     usedEmail(state, payload) {

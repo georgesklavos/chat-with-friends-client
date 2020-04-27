@@ -222,6 +222,16 @@ export default {
       await this.$store.dispatch("getMessages", this.getActiveChat.chat);
 
       this.$emit("messages", true);
+    } else {
+      this.$store.commit("setActivateChat", {
+        user: "",
+        chat: "",
+        firstName: "",
+        lastname: "",
+        avatar: ""
+      });
+
+      this.$emit("noFriends");
     }
   },
   methods: {

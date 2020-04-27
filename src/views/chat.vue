@@ -8,7 +8,7 @@
       <v-row align="center" no-gutters>
         <v-col cols="12" sm="4" md="3">
           <v-card class="pa-2" outlined tile style="height: 100vh;">
-            <friends-and-search @loaded="showPage" @messages="loadChat"></friends-and-search>
+            <friends-and-search @loaded="showPage" @messages="loadChat" @noFriends="noFriendsChat"></friends-and-search>
           </v-card>
         </v-col>
         <v-col cols="12" sm="4" md="7">
@@ -58,6 +58,10 @@ export default {
     loadChat: function(value) {
       this.chat = value;
       this.loading = !value;
+    },
+    noFriendsChat: function() {
+      this.chat = false;
+      this.loading = false;
     }
   },
   async created() {

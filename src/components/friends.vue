@@ -94,9 +94,11 @@ export default {
       this.profileData = data;
     },
     deleteFriend: async function(friend) {
-      const index = this.friends.indexOf(friend);
+      console.log("Clicked");
+      console.log(friend);
+      const index = this.friendsInTheList.indexOf(friend);
       if (index > -1) {
-        this.friends.splice(index, 1);
+        this.friendsInTheList.splice(index, 1);
         await this.$store.dispatch("deleteFriend", friend._id);
       }
     },

@@ -147,7 +147,7 @@ export default new Vuex.Store({
     signUp(context, data) {
       return new Promise((resolve) => {
         axios
-          .post("http://localhost:3000/users", data, {
+          .post("/api/users", data, {
             headers: {
               "content-type": "application/json",
             },
@@ -173,7 +173,7 @@ export default new Vuex.Store({
     login(context, data) {
       return new Promise((resolve) => {
         axios
-          .post("http://localhost:3000/users/login", data, {
+          .post("/api/users/login", data, {
             headers: {
               "content-type": "application/json",
             },
@@ -200,7 +200,7 @@ export default new Vuex.Store({
     profile(context) {
       return new Promise((resolve) => {
         axios
-          .get("http://localhost:3000/users/me", {
+          .get("/api/users/me", {
             headers: {
               authorization: `Bearer ${Cookies.get("token")}`,
             },
@@ -218,7 +218,7 @@ export default new Vuex.Store({
     updateProfile(context, data) {
       return new Promise((resolve) => {
         axios
-          .patch("http://localhost:3000/users/me", data, {
+          .patch("/api/users/me", data, {
             headers: {
               authorization: `Bearer ${Cookies.get("token")}`,
             },
@@ -239,7 +239,7 @@ export default new Vuex.Store({
       fd.append("avatar", data);
       return new Promise((resolve) => {
         axios
-          .post("http://localhost:3000/users/me/avatar", fd, {
+          .post("/api/users/me/avatar", fd, {
             headers: {
               authorization: `Bearer ${Cookies.get("token")}`,
               "Content-Type": `multipart/form-data;`,
@@ -257,7 +257,7 @@ export default new Vuex.Store({
     getFriends(context) {
       return new Promise((resolve) => {
         axios
-          .get("http://localhost:3000/friends", {
+          .get("/api/friends", {
             headers: {
               authorization: `Bearer ${Cookies.get("token")}`,
             },
@@ -281,7 +281,7 @@ export default new Vuex.Store({
     getRequests(context) {
       return new Promise((resolve) => {
         axios
-          .get("http://localhost:3000/request", {
+          .get("/api/request", {
             headers: {
               authorization: `Bearer ${Cookies.get("token")}`,
             },
@@ -301,7 +301,7 @@ export default new Vuex.Store({
     acceptRequest(context, payload) {
       return new Promise((resolve) => {
         axios
-          .post(`http://localhost:3000/request/accept/${payload}`, "", {
+          .post(`/api/request/accept/${payload}`, "", {
             headers: {
               authorization: `Bearer ${Cookies.get("token")}`,
             },
@@ -319,7 +319,7 @@ export default new Vuex.Store({
     declineRequest(context, payload) {
       return new Promise((resolve) => {
         axios
-          .post(`http://localhost:3000/request/decline/${payload}`, "", {
+          .post(`/api/request/decline/${payload}`, "", {
             headers: {
               authorization: `Bearer ${Cookies.get("token")}`,
             },
@@ -336,7 +336,7 @@ export default new Vuex.Store({
     chats(context) {
       return new Promise((resolve) => {
         axios
-          .get("http://localhost:3000/chats", {
+          .get("/api/chats", {
             headers: {
               authorization: `Bearer ${Cookies.get("token")}`,
             },
@@ -353,7 +353,7 @@ export default new Vuex.Store({
     search(context, payload) {
       return new Promise((resolve) => {
         axios
-          .get(`http://localhost:3000/users/${payload}`, {
+          .get(`/api/users/${payload}`, {
             headers: {
               authorization: `Bearer ${Cookies.get("token")}`,
             },
@@ -370,7 +370,7 @@ export default new Vuex.Store({
     addFriend(context, payload) {
       return new Promise((resolve) => {
         axios
-          .post(`http://localhost:3000/friends/${payload}`, "", {
+          .post(`/api/friends/${payload}`, "", {
             headers: {
               authorization: `Bearer ${Cookies.get("token")}`,
             },
@@ -386,7 +386,7 @@ export default new Vuex.Store({
     getMessages(context, payload) {
       return new Promise((resolve) => {
         axios
-          .get(`http://localhost:3000/message/${payload}`, {
+          .get(`/api/message/${payload}`, {
             headers: {
               authorization: `Bearer ${Cookies.get("token")}`,
             },
@@ -403,7 +403,7 @@ export default new Vuex.Store({
     deleteFriend(context, payload) {
       return new Promise((resolve) => {
         axios
-          .delete(`http://localhost:3000/friends/${payload}`, {
+          .delete(`/api/friends/${payload}`, {
             headers: {
               authorization: `Bearer ${Cookies.get("token")}`,
             },

@@ -57,7 +57,7 @@ export default {
     return {
       valid: false,
       message: "",
-      socket: io(process.env.IO_URL, {
+      socket: io(process.env.VUE_APP_IO_URL, {
         query: { token: `${Cookies.get("token")}` },
       }),
       typing: false,

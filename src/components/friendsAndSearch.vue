@@ -76,9 +76,9 @@
               <v-list-item-avatar size="50">
                 <v-img :src="item.avatar"></v-img>
               </v-list-item-avatar>
-              <v-list-item-title style="margin-left:10px; margin-right:10px;">
-                {{ item.name + " " + item.lastname }}
-              </v-list-item-title>
+              <v-list-item-title style="margin-left:10px; margin-right:10px;">{{
+                item.name + " " + item.lastname
+              }}</v-list-item-title>
               <v-btn
                 small
                 color="primary"
@@ -116,16 +116,36 @@
     </v-row>
     <v-divider></v-divider>
     <v-col style="max-height: 80vh" class="overflow-y-auto">
-      <v-list v-if="search !== '' && searchResults.length > 0">
+      <v-list v-if="search !== '' && loadSearch === true">
+        <v-list-item>
+          <v-col>
+            <v-list-item-content>
+              <v-row>
+                <v-col cols="12">
+                  <v-row justify="center" align="center" style="height:600px">
+                    <v-progress-circular
+                      color="primary"
+                      size="100"
+                      indeterminate
+                    ></v-progress-circular>
+                  </v-row>
+                </v-col>
+              </v-row>
+            </v-list-item-content>
+          </v-col>
+        </v-list-item>
+      </v-list>
+
+      <v-list v-if="search !== '' && loadSearch === false">
         <v-list-item v-for="(friend, index) in searchResults" :key="index">
           <v-list-item-avatar size="50">
             <v-img :src="friend.avatar"></v-img>
           </v-list-item-avatar>
 
           <v-list-item-content>
-            <v-list-item-title>
-              {{ friend.name + " " + friend.lastname }}
-            </v-list-item-title>
+            <v-list-item-title>{{
+              friend.name + " " + friend.lastname
+            }}</v-list-item-title>
           </v-list-item-content>
 
           <v-col md="3" style="padding-left:0; padding-right:0;">
@@ -176,9 +196,9 @@
           </v-list-item-avatar>
           <v-col>
             <v-list-item-content>
-              <v-list-item-title>
-                {{ friend.name + " " + friend.lastname }}
-              </v-list-item-title>
+              <v-list-item-title>{{
+                friend.name + " " + friend.lastname
+              }}</v-list-item-title>
             </v-list-item-content>
           </v-col>
         </v-list-item>
@@ -208,7 +228,8 @@ export default {
       search: "",
       profileData: {},
       searchResults: [],
-      socket: io(process.env.IO_URL, {
+      loadSearch: false,
+      socket: io(process.env.VUE_APP_IO_URL, {
         query: { token: `${Cookies.get("token")}` },
       }),
       load: false,
@@ -289,7 +310,9 @@ export default {
     },
     getSearch: async function() {
       if (this.search.trim()) {
+        this.loadSearch = true;
         await this.$store.dispatch("search", this.search);
+        this.loadSearch = false;
         this.searchResults = await this.$store.getters.searchResults;
 
         for (let i = 0; i <= this.searchResults.length; i++) {

@@ -7,13 +7,28 @@
             <img :src="data.avatar" alt="John" />
           </v-avatar>
 
-          <v-text-field v-model="data.name" label="Name" disabled></v-text-field>
-          <v-text-field v-model="data.lastname" label="Last Name" disabled></v-text-field>
-          <v-text-field v-model="data.email" label="Email" disabled></v-text-field>
+          <v-text-field
+            v-model="data.name"
+            label="Name"
+            disabled
+          ></v-text-field>
+          <v-text-field
+            v-model="data.email"
+            label="Email"
+            disabled
+          ></v-text-field>
 
-          <v-text-field disabled v-model="date"></v-text-field>
+          <v-text-field
+            label="Birthday date"
+            disabled
+            v-model="date"
+          ></v-text-field>
 
-          <v-text-field v-model="data.gender" label="Gender" disabled></v-text-field>
+          <v-text-field
+            v-model="data.gender"
+            label="Gender"
+            disabled
+          ></v-text-field>
         </v-form>
       </v-card>
     </v-dialog>
@@ -32,12 +47,12 @@ export default {
   computed: {
     date: function() {
       return moment(this.data.dateOfBirth).format("YYYY-MM-DD");
-    }
+    },
   },
   methods: {
     close: function() {
       this.$emit("closed", this.show);
-    }
-  }
+    },
+  },
 };
 </script>

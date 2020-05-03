@@ -58,22 +58,22 @@ export default {
       valid: false,
       message: "",
       socket: io(process.env.VUE_APP_IO_URL, {
-        query: { token: `${Cookies.get("token")}` },
+        query: { token: `${Cookies.get("token")}` }
       }),
       typing: false,
       textTyping: "",
-      timeout: "",
+      timeout: ""
     };
   },
   computed: {
-    ...mapGetters(["user", "messages", "getActiveChat"]),
+    ...mapGetters(["user", "messages", "getActiveChat"])
   },
   async created() {
     // await this.$store.dispatch("profile");
     // console.log(`messageSend-${this.user._id}-${this.getActiveChat.chat}`);
     this.socket.on(
       `messageSend-${this.user._id}-${this.getActiveChat.chat}`,
-      async (value) => {
+      async value => {
         value.createdAt = this.parseDate(value.createdAt);
         this.messages.push(value);
         this.$nextTick(() => {
@@ -84,7 +84,7 @@ export default {
 
     this.socket.on(
       `receiveType-${this.user._id}-${this.getActiveChat.chat}`,
-      async (data) => {
+      async data => {
         if (data.type) {
           this.typing = true;
           this.textTyping = `${data.name} is typing`;
@@ -112,7 +112,7 @@ export default {
         name: this.user.name,
         userId: this.getActiveChat.user,
         chat: this.getActiveChat.chat,
-        type: false,
+        type: false
       });
     },
     sendPress: function() {
@@ -120,7 +120,7 @@ export default {
         name: this.user.name,
         userId: this.getActiveChat.user,
         chat: this.getActiveChat.chat,
-        type: true,
+        type: true
       });
       clearTimeout(this.timeout);
       this.timeout = setTimeout(this.timeoutFunction, 2000);
@@ -132,7 +132,7 @@ export default {
           friend: this.getActiveChat.user,
           chat: this.getActiveChat.chat,
           message: this.message,
-          sender: this.user._id,
+          sender: this.user._id
         };
 
         this.socket.emit(`messageGet-${this.user._id}`, data);
@@ -140,7 +140,7 @@ export default {
         this.messages.push({
           sender: this.user._id,
           message: this.message,
-          createdAt: moment().format("ddd hh:mm DD/YYYY"),
+          createdAt: moment().format("ddd hh:mm DD/YYYY")
         });
         this.message = "";
       }
@@ -165,8 +165,8 @@ export default {
       if (containerHeight - newMessageHeight <= scrollOffset) {
         this.$refs.chatMessages.scrollTop = this.$refs.chatMessages.scrollHeight;
       }
-    },
-  },
+    }
+  }
 };
 </script>
 

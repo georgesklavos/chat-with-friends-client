@@ -179,7 +179,6 @@ export default new Vuex.Store({
             },
           })
           .then(async (res) => {
-            console.log(res.data);
             await context.commit("setUserData", res.data.user);
             await context.commit("setToken", res.data.token);
             if (Cookies.get("token")) {
@@ -306,8 +305,7 @@ export default new Vuex.Store({
               authorization: `Bearer ${Cookies.get("token")}`,
             },
           })
-          .then((res) => {
-            console.log(res);
+          .then(() => {
             resolve();
           })
 

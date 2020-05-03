@@ -85,6 +85,9 @@ export default {
     await this.$store.dispatch("getFriends");
     this.friendsInTheList = this.friends;
   },
+  updated() {
+    this.friendsInTheList = this.friends;
+  },
   methods: {
     close: function() {
       this.$emit("closed", this.show);
